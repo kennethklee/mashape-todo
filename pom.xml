@@ -9,6 +9,12 @@
     <version>1.0-SNAPSHOT</version>
     <name>todo-webapp</name>
 
+    <properties>
+        <jersey.version>2.13</jersey.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jetty.version>9.0.6.v20130930</jetty.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -51,6 +57,7 @@
             <type>pom</type>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -98,9 +105,4 @@
         </plugins>
     </build>
 
-    <properties>
-        <jersey.version>2.13</jersey.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jetty.version>9.0.6.v20130930</jetty.version>
-    </properties>
 </project>

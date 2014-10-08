@@ -3,6 +3,7 @@ package com.kenneth.todo.dao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.kenneth.todo.model.Model;
 
@@ -13,7 +14,8 @@ import com.kenneth.todo.model.Model;
  */
 public abstract class AbstractInMemoryDao <T extends Model> implements Dao<T> {
 
-	private Map<String, T> models;
+	// Our in-memory database
+	protected Map<String, T> models;
 	
 	public AbstractInMemoryDao() {
 		this.models = new HashMap<String, T>();
@@ -32,6 +34,7 @@ public abstract class AbstractInMemoryDao <T extends Model> implements Dao<T> {
 	 */
 	@Override
 	public T create(T model) {
+		model.setId(UUID.randomUUID().toString());
 		return this.models.put(model.getId(), model);
 	}
 	
@@ -52,10 +55,10 @@ public abstract class AbstractInMemoryDao <T extends Model> implements Dao<T> {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.kenneth.todo.dao.Dao#delete(T)
+	 * @see com.kenneth.todo.dao.Dao#delete(java.lang.String)
 	 */
 	@Override
-	public T delete(T model) {
-		return this.models.remove(model.getId());
+	public T delete(String id) {
+		return this.models.remove(id);
 	}
 }

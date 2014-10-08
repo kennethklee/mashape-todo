@@ -19,6 +19,6 @@ public interface Dao<T extends Model> {
 
 	public abstract List<T> findAll();
 
-	public abstract T delete(T model);
+	public abstract T delete(String id);
 
 }
