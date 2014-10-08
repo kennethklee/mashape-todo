@@ -1,6 +1,6 @@
 package com.kenneth.todo.dao;
 
-import com.kenneth.todo.model.Model;
+import com.kenneth.todo.model.TodoModel;
 
-public class TodoInMemoryDao <T extends Model> extends AbstractInMemoryDao<T> {
+public class TodoInMemoryDao extends AbstractInMemoryDao<TodoModel> {
 }
