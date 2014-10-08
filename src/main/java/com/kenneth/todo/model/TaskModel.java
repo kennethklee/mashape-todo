@@ -1,6 +1,6 @@
 package com.kenneth.todo.model;
 
-public class TodoModel implements Model {
+public class TaskModel implements Model {
 
 	private String id;
 	

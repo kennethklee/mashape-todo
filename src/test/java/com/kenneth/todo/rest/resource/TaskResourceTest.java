@@ -1,4 +1,4 @@
-package com.kenneth.todo;
+package com.kenneth.todo.rest.resource;
 
 import javax.ws.rs.core.Application;
 
@@ -8,13 +8,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import com.kenneth.todo.rest.resource.MyResource;
+import com.kenneth.todo.rest.resource.TaskResource;
 
-public class MyResourceTest extends JerseyTest {
+public class TaskResourceTest extends JerseyTest {
 
     @Override
     protected Application configure() {
-        return new ResourceConfig(MyResource.class);
+        return new ResourceConfig(TaskResource.class);
     }
 
     /**
@@ -22,7 +22,7 @@ public class MyResourceTest extends JerseyTest {
      */
     @Test
     public void testGetIt() {
-        final String responseMsg = target().path("myresource").request().get(String.class);
+        final String responseMsg = target().path("tasks").request().get(String.class);
 
         assertEquals("Hello, Heroku!", responseMsg);
     }
