@@ -1,4 +1,4 @@
-package com.kenneth.todo;
+package com.kenneth.todo.rest.resource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
