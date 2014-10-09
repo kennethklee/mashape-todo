@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AbstractInMemoryDaoTest {
+public class GenericInMemoryDaoTest {
 	
 	private GenericInMemoryDao<MockModel> dao;
 	
@@ -66,5 +66,10 @@ public class AbstractInMemoryDaoTest {
 	public void testFindAll() {
 		List<MockModel> models = this.dao.findAll();
 		assertEquals(1, models.size());
+	}
+	
+	@Test
+	public void testCountAll() {
+		assertEquals(1, this.dao.countAll());
 	}
 }
