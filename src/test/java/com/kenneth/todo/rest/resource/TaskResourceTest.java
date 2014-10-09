@@ -1,14 +1,11 @@
 package com.kenneth.todo.rest.resource;
 
 import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Response;
-
-import org.glassfish.jersey.moxy.json.MoxyJsonConfig;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import com.kenneth.todo.rest.resource.TaskResource;
 
@@ -16,8 +13,7 @@ public class TaskResourceTest extends JerseyTest {
 
     @Override
     protected Application configure() {
-        return new ResourceConfig(TaskResource.class)
-        	.register(new MoxyJsonConfig().resolver());
+        return new ResourceConfig(TaskResource.class);
     }
 
     /**
@@ -25,8 +21,8 @@ public class TaskResourceTest extends JerseyTest {
      */
     @Test
     public void testGet() {
-        final Response response = target().path("tasks").request().get();
-
-        //assertEquals("[]", responseMsg);
+        final String json = target().path("/tasks").request().get(String.class);
+        
+        assertEquals("[]", json);
     }
 }
