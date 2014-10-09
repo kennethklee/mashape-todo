@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class AbstractInMemoryDaoTest {
 	
-	private AbstractInMemoryDao<MockModel> dao;
+	private GenericInMemoryDao<MockModel> dao;
 	
 	@Before
 	public void setUp() {

@@ -11,55 +11,49 @@ import com.kenneth.todo.model.Model;
 /**
  * Generic DAO stored in-memory
  * 
- * @param <T>
+ * @param <T> Model to use for storage
  */
-public abstract class AbstractInMemoryDao <T extends Model> implements Dao<T> {
+public class GenericInMemoryDao<T extends Model> implements Dao<T> {
 
 	// Our in-memory database
 	protected Map<String, T> models;
-	
-	public AbstractInMemoryDao() {
+
+	/**
+	 * Create a new instance of an in-memory database.
+	 */
+	public GenericInMemoryDao() {
 		this.models = new HashMap<String, T>();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.kenneth.todo.dao.Dao#get(java.lang.String)
-	 */
 	@Override
 	public T get(String id) {
 		return this.models.get(id);
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.kenneth.todo.dao.Dao#create(T)
-	 */
+
 	@Override
 	public T create(T model) {
 		model.setId(UUID.randomUUID().toString());
 		return this.models.put(model.getId(), model);
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.kenneth.todo.dao.Dao#update(T)
-	 */
+
 	@Override
 	public T update(T model) {
 		return this.models.put(model.getId(), model);
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.kenneth.todo.dao.Dao#findAll()
-	 */
+
 	@Override
 	public List<T> findAll() {
 		return new ArrayList<T>(this.models.values());
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.kenneth.todo.dao.Dao#delete(java.lang.String)
-	 */
+
+	@Override
+	public int countAll() {
+		return this.models.size();
+	}
+
 	@Override
 	public T delete(String id) {
 		return this.models.remove(id);
 	}
+
 }

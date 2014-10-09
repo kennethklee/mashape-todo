@@ -16,11 +16,8 @@ public class TaskResourceTest extends JerseyTest {
         return new ResourceConfig(TaskResource.class);
     }
 
-    /**
-     * Test to see that the message "Got it!" is sent in the response.
-     */
     @Test
-    public void testGet() {
+    public void testList() {
         final String json = target().path("/tasks").request().get(String.class);
         
         assertEquals("[]", json);

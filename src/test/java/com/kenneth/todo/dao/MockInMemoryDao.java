@@ -1,6 +1,6 @@
 package com.kenneth.todo.dao;
 
-public class MockInMemoryDao extends AbstractInMemoryDao<MockModel>{
+public class MockInMemoryDao extends GenericInMemoryDao<MockModel>{
 
 	public MockInMemoryDao() {
 		super();
