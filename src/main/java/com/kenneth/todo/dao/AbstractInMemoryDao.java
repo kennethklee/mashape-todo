@@ -1,5 +1,6 @@
 package com.kenneth.todo.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,7 @@ public abstract class AbstractInMemoryDao <T extends Model> implements Dao<T> {
 	 */
 	@Override
 	public List<T> findAll() {
-		return (List<T>) this.models.values();
+		return new ArrayList<T>(this.models.values());
 	}
 	
 	/* (non-Javadoc)

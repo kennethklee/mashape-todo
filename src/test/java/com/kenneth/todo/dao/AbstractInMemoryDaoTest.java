@@ -2,6 +2,8 @@ package com.kenneth.todo.dao;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,5 +60,11 @@ public class AbstractInMemoryDaoTest {
 		this.dao.delete("fake");
 		
 		assertNull(dao.get("fake"));
+	}
+	
+	@Test
+	public void testFindAll() {
+		List<MockModel> models = this.dao.findAll();
+		assertEquals(1, models.size());
 	}
 }
