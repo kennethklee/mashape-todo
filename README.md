@@ -37,3 +37,10 @@ Depending on your webserver, copy `target/todo-webapp.war` to the
 
 endpoints
 ---------
+
+### GET /v1/tasks
+Retrieve list of task
+
+### GET /v1/tasks/{id}
+Retrieve a single task identified by `id`.
+

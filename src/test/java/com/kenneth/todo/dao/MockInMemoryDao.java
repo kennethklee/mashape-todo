@@ -9,6 +9,8 @@ public class MockInMemoryDao extends GenericInMemoryDao<MockModel>{
 		MockModel fakeMockModel = new MockModel();
 		fakeMockModel.setId("fake");
 		fakeMockModel.setValue("fake");
+		
+		// Put into database
 		this.models.put(fakeMockModel.getId(), fakeMockModel);
 	}
 }
