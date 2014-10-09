@@ -1,4 +1,4 @@
-package com.kenneth.todo.heroku;
+package com.kenneth.todo;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;

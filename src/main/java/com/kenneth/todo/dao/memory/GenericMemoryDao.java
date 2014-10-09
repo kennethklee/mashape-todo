@@ -1,4 +1,4 @@
-package com.kenneth.todo.dao;
+package com.kenneth.todo.dao.memory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.kenneth.todo.dao.Dao;
 import com.kenneth.todo.model.Model;
 
 /**
@@ -13,7 +14,7 @@ import com.kenneth.todo.model.Model;
  * 
  * @param <T> Model to use for storage
  */
-public class GenericInMemoryDao<T extends Model> implements Dao<T> {
+public class GenericMemoryDao<T extends Model> implements Dao<T> {
 
 	// Our in-memory database
 	protected Map<String, T> models;
@@ -21,7 +22,7 @@ public class GenericInMemoryDao<T extends Model> implements Dao<T> {
 	/**
 	 * Create a new instance of an in-memory database.
 	 */
-	public GenericInMemoryDao() {
+	public GenericMemoryDao() {
 		this.models = new HashMap<String, T>();
 	}
 

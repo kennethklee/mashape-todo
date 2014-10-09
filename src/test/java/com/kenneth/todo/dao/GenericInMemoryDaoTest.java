@@ -7,9 +7,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.kenneth.todo.dao.memory.GenericMemoryDao;
+
 public class GenericInMemoryDaoTest {
 	
-	private GenericInMemoryDao<MockModel> dao;
+	private GenericMemoryDao<MockModel> dao;
 	
 	@Before
 	public void setUp() {

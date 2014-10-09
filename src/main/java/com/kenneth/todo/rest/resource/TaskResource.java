@@ -2,8 +2,10 @@ package com.kenneth.todo.rest.resource;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -29,6 +31,15 @@ public class TaskResource {
         return dao.findAll();
     }
     
+    @POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+    public TaskModel create(TaskModel model) {
+		TaskDao dao = SingletonFactory.getInstance().getTaskDao();
+		
+		return dao.create(model);
+	}
+    
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -41,4 +52,5 @@ public class TaskResource {
     	}
 		return model;
     }
+    
 }

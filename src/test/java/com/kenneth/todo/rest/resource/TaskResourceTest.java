@@ -17,7 +17,16 @@ public class TaskResourceTest extends JerseyTest {
     }
 
     @Test
-    public void testList() {
+    public void testListEmpty() {
+        final String json = target().path("/tasks").request().get(String.class);
+        
+        assertEquals("[]", json);
+    }
+    
+    @Test
+    public void testCreateListGet() {
+    	
+    	
         final String json = target().path("/tasks").request().get(String.class);
         
         assertEquals("[]", json);

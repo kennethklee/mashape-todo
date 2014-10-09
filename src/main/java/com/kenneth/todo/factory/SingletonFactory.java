@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import com.kenneth.todo.dao.TaskDao;
-import com.kenneth.todo.dao.TaskInMemoryDao;
+import com.kenneth.todo.dao.memory.TaskMemoryDao;
 
 public class SingletonFactory {
 	private static final String APPLICATION_PROPERTIES = "/application.properties";
@@ -35,7 +35,7 @@ public class SingletonFactory {
 		if (this.taskDao == null) {
 			synchronized (this) {
 				if (this.taskDao == null) {
-					this.taskDao = new TaskInMemoryDao();
+					this.taskDao = new TaskMemoryDao(null);
 				}
 			}
 		}
