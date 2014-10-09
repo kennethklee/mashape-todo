@@ -3,13 +3,17 @@ package com.kenneth.todo.rest.resource;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.factory.SingletonFactory;
@@ -34,10 +38,12 @@ public class TaskResource {
     @POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-    public TaskModel create(TaskModel model) {
+    public Response create(TaskModel model) {
 		TaskDao dao = SingletonFactory.getInstance().getTaskDao();
 		
-		return dao.create(model);
+		return Response.status(Status.CREATED)
+				.entity(dao.create(model))
+				.build();
 	}
     
     @GET
@@ -52,5 +58,34 @@ public class TaskResource {
     	}
 		return model;
     }
+    
+    @PUT
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public TaskModel update(@PathParam("id") String id, TaskModel model) {
+    	TaskDao dao = SingletonFactory.getInstance().getTaskDao();
+    	
+    	TaskModel targetModel = dao.get(id);
+    	if (targetModel == null) {
+    		throw new NotFoundException();
+    	}
+    	model.setId(targetModel.getId());
+		return dao.update(model);
+    }
+    
+    @DELETE
+    @Path("{id}")
+    public void delete(@PathParam("id") String id) {
+    	TaskDao dao = SingletonFactory.getInstance().getTaskDao();
+    	
+    	TaskModel model = dao.get(id);
+    	if (model == null) {
+    		throw new NotFoundException();
+    	}
+    	
+    	dao.delete(id);
+    }
+
     
 }

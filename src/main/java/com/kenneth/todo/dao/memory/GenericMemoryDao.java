@@ -34,7 +34,8 @@ public class GenericMemoryDao<T extends Model> implements Dao<T> {
 	@Override
 	public T create(T model) {
 		model.setId(UUID.randomUUID().toString());
-		return this.models.put(model.getId(), model);
+		this.models.put(model.getId(), model);
+		return model;
 	}
 
 	@Override
