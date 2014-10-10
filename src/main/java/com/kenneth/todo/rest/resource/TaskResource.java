@@ -70,7 +70,7 @@ public class TaskResource {
     	if (targetModel == null) {
     		throw new NotFoundException();
     	}
-    	model.setId(targetModel.getId());
+    	model.setId(id);
 		return dao.update(model);
     }
     

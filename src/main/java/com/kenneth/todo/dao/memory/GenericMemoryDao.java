@@ -40,7 +40,8 @@ public class GenericMemoryDao<T extends Model> implements Dao<T> {
 
 	@Override
 	public T update(T model) {
-		return this.models.put(model.getId(), model);
+		this.models.put(model.getId(), model);
+		return model;
 	}
 
 	@Override
