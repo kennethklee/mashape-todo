@@ -10,10 +10,12 @@
 	<name>todo-webapp</name>
 
 	<properties>
-		<jersey.version>2.13</jersey.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jersey.version>2.13</jersey.version>
+		<twilio.version>3.4.5</twilio.version>
 		<jetty.version>9.0.6.v20130930</jetty.version>
 		<slf4j.version>1.7.7</slf4j.version>
+		<datafactory.version>0.8</datafactory.version>
 	</properties>
 
 	<dependencyManagement>
@@ -38,6 +40,13 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-moxy</artifactId>
+		</dependency>
+		
+		<!-- Twilio -->
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio-java-sdk</artifactId>
+			<version>${twilio.version}</version>
 		</dependency>
 
 		<!-- Web Server -->
@@ -76,7 +85,7 @@
 		<dependency>
 			<groupId>org.fluttercode.datafactory</groupId>
 			<artifactId>datafactory</artifactId>
-			<version>0.8</version>
+			<version>${datafactory.version}</version>
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
