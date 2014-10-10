@@ -1,4 +1,4 @@
-package com.kenneth.todo.dao;
+package com.kenneth.todo.dao.mock;
 
 import com.kenneth.todo.model.Model;
 

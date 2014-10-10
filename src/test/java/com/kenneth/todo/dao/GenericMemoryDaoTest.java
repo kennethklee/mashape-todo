@@ -8,14 +8,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.kenneth.todo.dao.memory.GenericMemoryDao;
+import com.kenneth.todo.dao.mock.MockMemoryDao;
+import com.kenneth.todo.dao.mock.MockModel;
 
-public class GenericInMemoryDaoTest {
+public class GenericMemoryDaoTest {
 	
 	private GenericMemoryDao<MockModel> dao;
 	
 	@Before
 	public void setUp() {
-		this.dao = new MockInMemoryDao();
+		this.dao = new MockMemoryDao();
 	}
 	
 	@Test

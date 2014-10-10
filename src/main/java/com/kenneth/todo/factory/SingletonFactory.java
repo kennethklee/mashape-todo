@@ -54,10 +54,12 @@ public class SingletonFactory {
 		if (this.taskDao == null) {
 			synchronized (this) {
 				if (this.taskDao == null) {
-					//String apiKey = this.properties.getProperty("searchly.url");
+					String searchlyUrl = this.properties.getProperty("searchly.url");
+
+					TaskDao storageDao = new TaskMemoryDao(null);
+					TaskDao searchDao = new TaskSearchlyDao(storageDao, searchlyUrl);
 					
-					this.taskDao = new TaskMemoryDao(null);
-					//this.taskDao = new TaskSearchlyDao(new TaskMemoryDao(null), apiKey);
+					this.taskDao = searchDao;
 				}
 			}
 		}

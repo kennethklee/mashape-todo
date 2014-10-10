@@ -19,6 +19,14 @@
 		<datafactory.version>0.8</datafactory.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>sonatype</id>
+			<name>Sonatype Groups</name>
+			<url>https://oss.sonatype.org/content/groups/public/</url>
+		</repository>
+	</repositories>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -27,6 +35,11 @@
 				<version>${jersey.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.3.4</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -42,14 +55,14 @@
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-moxy</artifactId>
 		</dependency>
-		
+
 		<!-- Twilio -->
 		<dependency>
 			<groupId>com.twilio.sdk</groupId>
 			<artifactId>twilio-java-sdk</artifactId>
 			<version>${twilio.version}</version>
 		</dependency>
-		
+
 		<!-- Searchly -->
 		<dependency>
 			<groupId>io.searchbox</groupId>

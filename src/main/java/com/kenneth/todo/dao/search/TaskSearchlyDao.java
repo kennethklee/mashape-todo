@@ -44,7 +44,7 @@ public class TaskSearchlyDao implements TaskDao {
 	private void createIndexUnlessExists() {
 		try {
 			if (!indexExists()) {
-				createIndex();
+				this.client.execute(new CreateIndex.Builder(INDEX_NAME).build());
 			}
 		} catch (Exception e) {
 			LOG.warn("Failed to create index in searchly.", e);
@@ -52,13 +52,8 @@ public class TaskSearchlyDao implements TaskDao {
 	}
 
 	private boolean indexExists() throws Exception {
-		JestResult result = this.client.execute(new IndicesExists.Builder("todo_app").build());
-		boolean exists = result.isSucceeded();
-		return exists;
-	}
-
-	private void createIndex() throws Exception {
-		this.client.execute(new CreateIndex.Builder(INDEX_NAME).build());
+		IndicesExists indexExists = new IndicesExists.Builder("todo_app").build();
+		return this.client.execute(indexExists).isSucceeded();
 	}
 
 	@Override

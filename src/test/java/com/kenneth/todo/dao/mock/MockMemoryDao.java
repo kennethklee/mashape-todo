@@ -1,10 +1,10 @@
-package com.kenneth.todo.dao;
+package com.kenneth.todo.dao.mock;
 
 import com.kenneth.todo.dao.memory.GenericMemoryDao;
 
-public class MockInMemoryDao extends GenericMemoryDao<MockModel>{
+public class MockMemoryDao extends GenericMemoryDao<MockModel>{
 
-	public MockInMemoryDao() {
+	public MockMemoryDao() {
 		super();
 		
 		// Setup fake data
