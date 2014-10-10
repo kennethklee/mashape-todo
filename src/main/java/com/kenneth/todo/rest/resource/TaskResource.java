@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.factory.SingletonFactory;
 import com.kenneth.todo.model.TaskModel;
 import com.kenneth.todo.service.TaskService;
