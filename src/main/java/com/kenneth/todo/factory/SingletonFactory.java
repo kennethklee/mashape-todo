@@ -5,12 +5,14 @@ import java.util.Properties;
 
 import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.dao.memory.TaskMemoryDao;
+import com.kenneth.todo.service.TaskService;
 
 public class SingletonFactory {
 	private static final String APPLICATION_PROPERTIES = "/application.properties";
 
 	private Properties properties;
 	private TaskDao taskDao;
+	private TaskService taskService;
 
 	private static class SingletonHolder {
 		private static final SingletonFactory INSTANCE = new SingletonFactory();
@@ -40,5 +42,16 @@ public class SingletonFactory {
 			}
 		}
 		return this.taskDao;
+	}
+
+	public TaskService getTaskService() {
+		if (this.taskService == null) {
+			synchronized (this) {
+				if (this.taskService == null) {
+					this.taskService = new TaskService();
+				}
+			}
+		}
+		return this.taskService;
 	}
 }

@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response.Status;
 import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.factory.SingletonFactory;
 import com.kenneth.todo.model.TaskModel;
+import com.kenneth.todo.service.TaskService;
 
 /**
  * Task resource.
@@ -29,20 +30,21 @@ public class TaskResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<TaskModel> list() {
-    	// TODO Use service layer instead of directly interfacing with dao
-    	TaskDao dao = SingletonFactory.getInstance().getTaskDao();
+    	TaskService service = SingletonFactory.getInstance().getTaskService();
     	
-        return dao.findAll();
+        return service.list();
     }
     
     @POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
     public Response create(TaskModel model) {
-		TaskDao dao = SingletonFactory.getInstance().getTaskDao();
+    	TaskService service = SingletonFactory.getInstance().getTaskService();
+
+    	TaskModel createdModel = service.create(model);
 		
 		return Response.status(Status.CREATED)
-				.entity(dao.create(model))
+				.entity(createdModel)
 				.build();
 	}
     
@@ -50,9 +52,9 @@ public class TaskResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public TaskModel get(@PathParam("id") String id) {
-    	TaskDao dao = SingletonFactory.getInstance().getTaskDao();
+    	TaskService service = SingletonFactory.getInstance().getTaskService();
     	
-    	TaskModel model = dao.get(id);
+    	TaskModel model = service.get(id);
     	if (model == null) {
     		throw new NotFoundException();
     	}
@@ -64,28 +66,26 @@ public class TaskResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public TaskModel update(@PathParam("id") String id, TaskModel model) {
-    	TaskDao dao = SingletonFactory.getInstance().getTaskDao();
-    	
-    	TaskModel targetModel = dao.get(id);
+    	TaskService service = SingletonFactory.getInstance().getTaskService();
+
+    	TaskModel targetModel = service.get(id);
     	if (targetModel == null) {
     		throw new NotFoundException();
     	}
-    	model.setId(id);
-		return dao.update(model);
+    	
+    	return service.update(id, model);
     }
     
     @DELETE
     @Path("{id}")
     public void delete(@PathParam("id") String id) {
-    	TaskDao dao = SingletonFactory.getInstance().getTaskDao();
+    	TaskService service = SingletonFactory.getInstance().getTaskService();
     	
-    	TaskModel model = dao.get(id);
+    	TaskModel model = service.get(id);
     	if (model == null) {
     		throw new NotFoundException();
     	}
     	
-    	dao.delete(id);
+    	service.delete(id);
     }
-
-    
 }
