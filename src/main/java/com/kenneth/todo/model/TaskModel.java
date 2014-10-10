@@ -1,5 +1,10 @@
 package com.kenneth.todo.model;
 
+/**
+ * Model that represents a task in a todo list.
+ * 
+ * NOTE: Should include active, and timestamps for record tracking and auditing. Since this is a simple example, we'll omit them.
+ */
 public class TaskModel implements Model {
 
 	private String id;
@@ -7,9 +12,19 @@ public class TaskModel implements Model {
 	private String body;
 	private boolean done;
 		
+	/**
+	 * Create an empty TaskModel. Use the setters to fill out the data.
+	 */
 	public TaskModel() {
 	}
 	
+	/**
+	 * Construct a TaskModel with specific data.
+	 * @param id model identifier
+	 * @param title title of task
+	 * @param body description of task
+	 * @param done whether the task is complete or not
+	 */
 	public TaskModel(String id, String title, String body, boolean done) {
 		this.id = id;
 		this.title = title;

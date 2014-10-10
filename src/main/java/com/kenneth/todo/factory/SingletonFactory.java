@@ -7,6 +7,9 @@ import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.dao.memory.TaskMemoryDao;
 import com.kenneth.todo.service.TaskService;
 
+/**
+ * Standard SingletonFactory design, because we're not going to use dependency injection for learning purposes. =)
+ */
 public class SingletonFactory {
 	private static final String APPLICATION_PROPERTIES = "/application.properties";
 
@@ -29,10 +32,16 @@ public class SingletonFactory {
 		}
 	}
 
+	/**
+	 * @return an instance of a SingletonFactory.
+	 */
 	public static SingletonFactory getInstance() {
 		return SingletonHolder.INSTANCE;
 	}
 
+	/**
+	 * @return an instance of a TaskDao
+	 */
 	public TaskDao getTaskDao() {
 		if (this.taskDao == null) {
 			synchronized (this) {
@@ -44,6 +53,9 @@ public class SingletonFactory {
 		return this.taskDao;
 	}
 
+	/**
+	 * @return an instance of a TaskService.
+	 */
 	public TaskService getTaskService() {
 		if (this.taskService == null) {
 			synchronized (this) {

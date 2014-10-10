@@ -5,6 +5,9 @@ import java.util.List;
 import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.model.TaskModel;
 
+/**
+ * This is an in-memory implementation of a {@link TaskDao}. Uses GenericMemoryDao to store Tasks in memory.
+ */
 public class TaskMemoryDao extends GenericMemoryDao<TaskModel> implements TaskDao {
 
 	private TaskDao innerDao;
