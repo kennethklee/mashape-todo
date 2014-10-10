@@ -1,81 +1,127 @@
 package com.kenneth.todo.dao.search;
 
+import io.searchbox.client.JestClient;
+import io.searchbox.client.JestClientFactory;
+import io.searchbox.client.JestResult;
+import io.searchbox.client.config.HttpClientConfig;
+import io.searchbox.core.Delete;
+import io.searchbox.core.Index;
+import io.searchbox.indices.CreateIndex;
+import io.searchbox.indices.IndicesExists;
+
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.model.TaskModel;
 
+/**
+ * Implementation of a Searchly Task Dao. Requires an innerDao for persistent storage.
+ */
 public class TaskSearchlyDao implements TaskDao {
 
+	private static final String INDEX_NAME = "tasks";
+	private static final String TYPE_NAME = "task";
+	private static final Logger LOG = LoggerFactory.getLogger(TaskSearchlyDao.class);
 	private TaskDao innerDao;
-	private String apiKey;
+	private JestClient client;
 	
-	public TaskSearchlyDao(TaskDao innerDao, String apiKey) {
+	public TaskSearchlyDao(TaskDao innerDao, String url) {
+		if (innerDao == null) {
+			throw new IllegalArgumentException("SearchlyDao requires an inner dao object.");
+		}
+		
 		this.innerDao = innerDao;
-		this.apiKey = apiKey;
+		JestClientFactory factory = new JestClientFactory();
+		factory.setHttpClientConfig(new HttpClientConfig.Builder(url).multiThreaded(true).build());
+		this.client = factory.getObject();
+		
+		createIndexUnlessExists();
+	}
+
+	private void createIndexUnlessExists() {
+		try {
+			if (!indexExists()) {
+				createIndex();
+			}
+		} catch (Exception e) {
+			LOG.warn("Failed to create index in searchly.", e);
+		}
+	}
+
+	private boolean indexExists() throws Exception {
+		JestResult result = this.client.execute(new IndicesExists.Builder("todo_app").build());
+		boolean exists = result.isSucceeded();
+		return exists;
+	}
+
+	private void createIndex() throws Exception {
+		this.client.execute(new CreateIndex.Builder(INDEX_NAME).build());
 	}
 
 	@Override
 	public TaskModel get(String id) {
-		if (innerDao != null) {
-			return innerDao.get(id);
-		}
-		
-		throw new UnsupportedOperationException();
+		return innerDao.get(id);
 	}
 
 	@Override
 	public TaskModel create(TaskModel model) {
-		if (innerDao != null) {
-			return innerDao.create(model);
-		}
+		TaskModel createdModel = innerDao.create(model);
+		createTaskInIndex(createdModel);
 		
-		throw new UnsupportedOperationException();
+		return createdModel;
+	}
+
+	private void createTaskInIndex(TaskModel createdModel) {
+		try {
+			this.client.execute(new Index.Builder(createdModel).index(INDEX_NAME).type(TYPE_NAME).build());
+		} catch (Exception e) {
+			LOG.warn("Failed to index task.", e);
+		}
 	}
 
 	@Override
 	public TaskModel update(TaskModel model) {
-		if (innerDao != null) {
-			return innerDao.update(model);
-		}
+		TaskModel updatedModel = innerDao.update(model);
 		
-		throw new UnsupportedOperationException();
+		deleteTaskFromIndex(updatedModel.getId());
+		createTaskInIndex(updatedModel);
+		
+		return updatedModel;
 	}
 
 	@Override
 	public List<TaskModel> findAll() {
-		if (innerDao != null) {
-			return innerDao.findAll();
-		}
-		
-		throw new UnsupportedOperationException();
+		return innerDao.findAll();
 	}
 
 	@Override
 	public int countAll() {
-		if (innerDao != null) {
-			return innerDao.countAll();
-		}
-		
-		throw new UnsupportedOperationException();
+		return innerDao.countAll();
 	}
 
 	@Override
 	public TaskModel delete(String id) {
-		if (innerDao != null) {
-			return innerDao.delete(id);
-		}
+		TaskModel deleteModel = innerDao.delete(id);
 		
-		throw new UnsupportedOperationException();
+		deleteTaskFromIndex(id);
+		
+		return deleteModel;
+	}
+
+	private void deleteTaskFromIndex(String id) {
+		try {
+			this.client.execute(new Delete.Builder(id).index(INDEX_NAME).type(TYPE_NAME).build());
+		} catch (Exception e) {
+			LOG.error("Failed to delete task from index", e);
+		}
 	}
 
 	@Override
 	public List<TaskModel> findByQuery(String query) {
-		if (innerDao != null) {
-			return innerDao.findByQuery(query);
-		}
-		
-		throw new UnsupportedOperationException();
+		return innerDao.findByQuery(query);
 	}
 
 }

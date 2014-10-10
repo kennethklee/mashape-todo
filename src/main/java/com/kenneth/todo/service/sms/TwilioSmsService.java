@@ -8,7 +8,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kenneth.todo.factory.SingletonFactory;
 import com.kenneth.todo.model.TaskModel;
 import com.kenneth.todo.service.SmsService;
 import com.twilio.sdk.TwilioRestClient;
@@ -28,11 +27,13 @@ public class TwilioSmsService implements SmsService {
 	/**
 	 * Create a new Twilio service. All sms messages will come from the <i>fromNumber</i> parameter. Also,
 	 * all message will be sent to the <i>toNumber</i>.
+	 * @param accountSid Twilio account sid 
+	 * @param authToken Twilio authentication token
 	 * @param fromNumber from sms number
 	 * @param toNumber to this sms number
 	 */
-	public TwilioSmsService(String fromNumber, String toNumber) {
-		this.twilioClient = SingletonFactory.getInstance().getTwilioClient();
+	public TwilioSmsService(String accountSid, String authToken, String fromNumber, String toNumber) {
+		this.twilioClient = new TwilioRestClient(accountSid, authToken);
 		this.fromNumber = fromNumber;
 		this.toNumber = toNumber;
 	}

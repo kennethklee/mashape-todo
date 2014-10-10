@@ -13,7 +13,6 @@ import com.kenneth.todo.service.SmsService;
 import com.kenneth.todo.service.TaskService;
 import com.kenneth.todo.service.sms.DisabledSmsService;
 import com.kenneth.todo.service.sms.TwilioSmsService;
-import com.twilio.sdk.TwilioRestClient;
 
 /**
  * Standard SingletonFactory design, because we're not going to use dependency injection for learning purposes. =)
@@ -25,7 +24,6 @@ public class SingletonFactory {
 	private Properties properties;
 	private TaskDao taskDao;
 	private TaskService taskService;
-	private TwilioRestClient twilioClient;
 	private SmsService smsService;
 
 	private static class SingletonHolder {
@@ -56,9 +54,10 @@ public class SingletonFactory {
 		if (this.taskDao == null) {
 			synchronized (this) {
 				if (this.taskDao == null) {
-					String apiKey = this.properties.getProperty("searchly.apikey");
+					//String apiKey = this.properties.getProperty("searchly.url");
 					
-					this.taskDao = new TaskSearchlyDao(new TaskMemoryDao(null), apiKey);
+					this.taskDao = new TaskMemoryDao(null);
+					//this.taskDao = new TaskSearchlyDao(new TaskMemoryDao(null), apiKey);
 				}
 			}
 		}
@@ -80,23 +79,6 @@ public class SingletonFactory {
 	}
 	
 	/**
-	 * @return an instance of a twilio client.
-	 */
-	public TwilioRestClient getTwilioClient() {
-		if (this.twilioClient == null) {
-			synchronized (this) {
-				if (this.twilioClient == null) {
-					String accountSid = this.properties.getProperty("twilio.sid");
-					String authToken = this.properties.getProperty("twilio.token");
-					
-					this.twilioClient = new TwilioRestClient(accountSid, authToken);
-				}
-			}
-		}
-		return this.twilioClient;
-	}
-
-	/**
 	 * @return an instance of an SMS Service
 	 */
 	public SmsService getSmsService() {
@@ -107,10 +89,13 @@ public class SingletonFactory {
 					boolean enabled = Boolean.parseBoolean(enabledString);
 					
 					if (enabled) {
+						String accountSid = this.properties.getProperty("twilio.sid");
+						String authToken = this.properties.getProperty("twilio.token");
+
 						String from = this.properties.getProperty("sms.from");
 						String to = this.properties.getProperty("sms.to");
 						
-						this.smsService = new TwilioSmsService(from, to);
+						this.smsService = new TwilioSmsService(accountSid, authToken, from, to);
 					} else {
 						this.smsService = new DisabledSmsService();
 					}

@@ -46,8 +46,7 @@ public class TaskResourceTest extends JerseyTest {
     }
     
     public void testDeleteNotFound() {
-    	final TaskModel model = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), false);
-        final Response response = target().path("/tasks/non-existant").request().delete();
+    	final Response response = target().path("/tasks/non-existant").request().delete();
         
         assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
