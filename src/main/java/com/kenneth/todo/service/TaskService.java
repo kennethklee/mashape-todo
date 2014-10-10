@@ -2,22 +2,17 @@ package com.kenneth.todo.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.factory.SingletonFactory;
 import com.kenneth.todo.model.TaskModel;
 
 public class TaskService {
-	private static Logger LOG = LoggerFactory.getLogger(TaskService.class);
-	
 	private TaskDao dao;
-	private SmsService twilioService;
+	private SmsService smsService;
 		
 	public TaskService() {
 		this.dao = SingletonFactory.getInstance().getTaskDao();
-		this.twilioService = SingletonFactory.getInstance().getSmsService();
+		this.smsService = SingletonFactory.getInstance().getSmsService();
 	}
 
 	public List<TaskModel> list() {
@@ -28,7 +23,7 @@ public class TaskService {
 		this.dao.create(model);
 		
 		if (model.isDone()) {
-			this.twilioService.sendComplete(model);
+			this.smsService.sendComplete(model);
 		}
 		return model;
 	}

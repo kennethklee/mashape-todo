@@ -5,7 +5,9 @@ import java.util.List;
 import com.kenneth.todo.model.TaskModel;
 
 /**
- * Base interface for a Task Data Access Object (DAO). This is used to interact with Tasks and storage/queries. 
+ * Base interface for a Task Data Access Object (DAO). This is used to interact with Tasks and storage/queries.
+ * 
+ * <b>NOTE:</b> throws {@link UnsupportedOperationException} when the method isn't implemented.
  */
 public interface TaskDao extends Dao<TaskModel> {
 	/**

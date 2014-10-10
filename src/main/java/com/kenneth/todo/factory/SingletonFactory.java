@@ -3,8 +3,12 @@ package com.kenneth.todo.factory;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.dao.memory.TaskMemoryDao;
+import com.kenneth.todo.dao.search.TaskSearchlyDao;
 import com.kenneth.todo.service.SmsService;
 import com.kenneth.todo.service.TaskService;
 import com.kenneth.todo.service.sms.DisabledSmsService;
@@ -16,6 +20,7 @@ import com.twilio.sdk.TwilioRestClient;
  */
 public class SingletonFactory {
 	private static final String APPLICATION_PROPERTIES = "/application.properties";
+	private static final Logger LOG = LoggerFactory.getLogger(SingletonFactory.class);
 
 	private Properties properties;
 	private TaskDao taskDao;
@@ -33,8 +38,7 @@ public class SingletonFactory {
 		try {
 			properties.load(getClass().getResourceAsStream(APPLICATION_PROPERTIES));
 		} catch (IOException e) {
-			// TODO LOGGING!
-			e.printStackTrace();
+			LOG.error("Failed to load application properties.", e);
 		}
 	}
 
@@ -52,7 +56,9 @@ public class SingletonFactory {
 		if (this.taskDao == null) {
 			synchronized (this) {
 				if (this.taskDao == null) {
-					this.taskDao = new TaskMemoryDao(null);
+					String apiKey = this.properties.getProperty("searchly.apikey");
+					
+					this.taskDao = new TaskSearchlyDao(new TaskMemoryDao(null), apiKey);
 				}
 			}
 		}
