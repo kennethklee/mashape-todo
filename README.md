@@ -47,29 +47,37 @@ configurations
 --------------
 There are configurations located in `/src/main/resources/application.properties`
 
-* data.storage
+* `data.storage`
+
   Specified what kind of storage to use. Options are: `mongo` and `memory`.
   `mongo` uses the `mongo.uri` and `mongo.name` configurations below to connect to a MongoDB.
   `memory` users an in-memory database.
 
-* elasticsearch.url
+* `elasticsearch.url`
+
   Url to connect to an elastic search server.
 
-* twilio.sid & twilio.token
+* `twilio.sid & twilio.token`
+
   Twilio account sid and authentication token to send SMS messages.
 
-* mongo.uri
+* `mongo.uri`
+
   When `data.storage` is set to `mongo`, this is used to connect to the mongo db. This configuration looks like: `mongodb://<username>:<password>@host:port/db-name`
-* mongo.name
+* `mongo.name`
+
   The name of the database to use. The username/password must have access to that database.
 
-* sms.enable
+* `sms.enable`
+
   Toggle of whether to send SMS messages or not.
 
-* sms.from
+* `sms.from`
+
   SMS messages will have this number in the FROM field.
 
-* sms.to
+* `sms.to`
+
   SMS messages will be delivered to this number.
 
 
