@@ -37,8 +37,8 @@ public class TwilioSmsService implements SmsService {
 	}
 
 	@Override
-	public void sendComplete(TaskModel task) {
-		List<NameValuePair> messageParams = constructMessage("Task completed! \"" + task.getTitle() + "\"");
+	public void sendTaskComplete(TaskModel task) {
+		List<NameValuePair> messageParams = constructMessage("Completed Task, \"" + task.getTitle() + "\"!");
 	 
 	    MessageFactory messageFactory = this.twilioClient.getAccount().getMessageFactory();
 	    

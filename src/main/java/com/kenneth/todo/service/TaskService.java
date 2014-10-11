@@ -25,7 +25,7 @@ public class TaskService {
 		this.dao.create(model);
 		
 		if (model.isDone()) {
-			this.smsService.sendComplete(model);
+			this.smsService.sendTaskComplete(model);
 		}
 		return model;
 	}

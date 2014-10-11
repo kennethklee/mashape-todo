@@ -11,6 +11,6 @@ public interface SmsService {
 	 * Send a task complete notification.
 	 * @param title title of task
 	 */
-	public abstract void sendComplete(TaskModel task);
+	public abstract void sendTaskComplete(TaskModel task);
 
 }

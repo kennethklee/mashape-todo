@@ -17,7 +17,7 @@ public class TaskServiceTest {
 	public class MockSmsService implements SmsService {
 
 		@Override
-		public void sendComplete(TaskModel task) {
+		public void sendTaskComplete(TaskModel task) {
 			assertEquals(true, task.isDone());
 		}
 		

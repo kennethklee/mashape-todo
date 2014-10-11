@@ -6,7 +6,7 @@ import com.kenneth.todo.service.SmsService;
 public class DisabledSmsService implements SmsService {
 
 	@Override
-	public void sendComplete(TaskModel task) {
+	public void sendTaskComplete(TaskModel task) {
 		// Do nothing
 	}
 
