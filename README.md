@@ -32,7 +32,7 @@ java -cp target/classes:target/dependency/* com.kenneth.todo.heroku.Main
 ```
 
 ### webserver
-Depending on your webserver, copy `target/todo-webapp.war` to the 
+Depending on your webserver, copy `target/todo-webapp.war` to the deploy path.
 
 rest resources
 --------------
