@@ -16,7 +16,7 @@ import com.kenneth.todo.dao.search.TaskSearchlyDao;
 import com.kenneth.todo.model.TaskModel;
 
 /**
- * Not a unit test. Needs mocking with mockito or jmock. But this is here for me to test searchly.
+ * Not a unit test. Needs mocking with mockito or something. But this is here for me to test searchly.
  */
 public class TaskSearchlyDaoTest {
 	
@@ -44,7 +44,7 @@ public class TaskSearchlyDaoTest {
 	@Ignore
 	public void testCreateAndFind() {
 		String title = df.getRandomWord();
-		TaskModel createdModel = this.dao.create(new TaskModel("fake", title, df.getRandomWord(20), false));
+		this.dao.create(new TaskModel("fake", title, df.getRandomWord(20), false));
 		
 		List<TaskModel> results = this.dao.findByQuery(title);
 		assertTrue(results.size() > 0);

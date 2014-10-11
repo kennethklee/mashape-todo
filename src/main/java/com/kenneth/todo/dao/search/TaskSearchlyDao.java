@@ -1,8 +1,6 @@
 package com.kenneth.todo.dao.search;
 
 import io.searchbox.client.JestClient;
-import io.searchbox.client.JestClientFactory;
-import io.searchbox.client.config.HttpClientConfig;
 import io.searchbox.core.Delete;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -104,17 +102,15 @@ public class TaskSearchlyDao implements TaskDao {
 	}
 
 	@Override
-	public int countAll() {
+	public long countAll() {
 		return innerDao.countAll();
 	}
 
 	@Override
-	public TaskModel delete(String id) {
-		TaskModel deleteModel = innerDao.delete(id);
+	public void delete(String id) {
+		innerDao.delete(id);
 
 		deleteTaskFromIndex(id);
-
-		return deleteModel;
 	}
 
 	private void deleteTaskFromIndex(String id) {

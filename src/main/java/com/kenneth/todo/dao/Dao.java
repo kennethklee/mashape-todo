@@ -42,13 +42,12 @@ public interface Dao<T extends Model> {
 	 * Retrieve a count of all model records in database.
 	 * @return count
 	 */
-	public int countAll();
+	public long countAll();
 
 	/**
 	 * Deletes the model by id from the database.
 	 * @param id identifier of model to delete
-	 * @return deleted model
 	 */
-	public T delete(String id);
+	public void delete(String id);
 
 }

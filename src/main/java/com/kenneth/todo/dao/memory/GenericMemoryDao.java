@@ -50,13 +50,13 @@ public class GenericMemoryDao<T extends Model> implements Dao<T> {
 	}
 
 	@Override
-	public int countAll() {
+	public long countAll() {
 		return this.models.size();
 	}
 
 	@Override
-	public T delete(String id) {
-		return this.models.remove(id);
+	public void delete(String id) {
+		this.models.remove(id);
 	}
 
 }

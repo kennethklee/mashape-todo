@@ -3,7 +3,6 @@ package com.kenneth.todo.service;
 import java.util.List;
 
 import com.kenneth.todo.dao.TaskDao;
-import com.kenneth.todo.factory.SingletonFactory;
 import com.kenneth.todo.model.TaskModel;
 
 /**
@@ -13,9 +12,9 @@ public class TaskService {
 	private TaskDao dao;
 	private SmsService smsService;
 		
-	public TaskService() {
-		this.dao = SingletonFactory.getInstance().getTaskDao();
-		this.smsService = SingletonFactory.getInstance().getSmsService();
+	public TaskService(TaskDao dao, SmsService smsService) {
+		this.dao = dao;
+		this.smsService = smsService;
 	}
 
 	public List<TaskModel> list() {

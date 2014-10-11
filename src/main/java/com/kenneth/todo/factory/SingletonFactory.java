@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.dao.memory.TaskMemoryDao;
+import com.kenneth.todo.dao.mongo.TaskMongoDao;
 import com.kenneth.todo.dao.search.TaskSearchlyDao;
 import com.kenneth.todo.service.SmsService;
 import com.kenneth.todo.service.TaskService;
@@ -65,7 +66,16 @@ public class SingletonFactory {
 		if (this.taskDao == null) {
 			synchronized (this) {
 				if (this.taskDao == null) {
-					TaskDao storageDao = new TaskMemoryDao(null);
+					TaskDao storageDao;
+
+					String storage = this.properties.getProperty("data.storage");
+					if (storage.equalsIgnoreCase("mongo")) {
+						String name = this.properties.getProperty("mongo.name");
+						storageDao = new TaskMongoDao(getMongoClient(), name);
+					} else {
+						storageDao = new TaskMemoryDao(null);
+					}
+					
 					TaskDao searchDao = new TaskSearchlyDao(getJestClient(), storageDao);
 					
 					this.taskDao = searchDao;
@@ -82,7 +92,7 @@ public class SingletonFactory {
 		if (this.taskService == null) {
 			synchronized (this) {
 				if (this.taskService == null) {
-					this.taskService = new TaskService();
+					this.taskService = new TaskService(getTaskDao(), getSmsService());
 				}
 			}
 		}
