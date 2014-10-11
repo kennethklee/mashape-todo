@@ -1,9 +1,12 @@
 package com.kenneth.todo.dao.mock;
 
+import io.searchbox.annotations.JestId;
+
 import com.kenneth.todo.model.Model;
 
 public class MockModel implements Model {
 
+	@JestId
 	private String id;
 	private String value;
 	
