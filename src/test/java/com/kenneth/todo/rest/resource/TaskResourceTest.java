@@ -1,7 +1,10 @@
 package com.kenneth.todo.rest.resource;
 
+import java.util.List;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -10,6 +13,7 @@ import org.fluttercode.datafactory.impl.DataFactory;
 import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -90,7 +94,27 @@ public class TaskResourceTest extends JerseyTest {
     	assertEquals(changedModel.getBody(), updatedModel.getBody());
     	assertEquals(changedModel.isDone(), updatedModel.isDone());
     	
+    	// Delete
     	final Response deleteResponse = target().path("/tasks/" + generatedId).request().delete();
     	assertEquals(Status.NO_CONTENT.getStatusCode(), deleteResponse.getStatus());
+    }
+    
+    @Test
+    @Ignore("Needs mockito to mock out the external request.")
+    public void testSearch() {
+    	// Create
+    	final TaskModel newModel = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), false);
+    	final TaskModel createdModel = target().path("/tasks").request().post(Entity.entity(newModel, MediaType.APPLICATION_JSON_TYPE), TaskModel.class);
+    	assertEquals(newModel.getTitle(), createdModel.getTitle());
+    	assertEquals(newModel.getBody(), createdModel.getBody());
+    	assertEquals(newModel.isDone(), createdModel.isDone());
+    	
+    	// Search for created task
+    	final Response response = target().path("/tasks").queryParam("q", newModel.getTitle()).request().get();
+        
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        List<TaskModel> searchResults = response.readEntity(new GenericType<List<TaskModel>>() {});
+        assertTrue(searchResults.size() > 0);	// There's at least one result
+
     }
 }

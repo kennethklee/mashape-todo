@@ -11,6 +11,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -28,10 +29,14 @@ public class TaskResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<TaskModel> list() {
+    public List<TaskModel> list(@QueryParam("q") String query) {
     	TaskService service = SingletonFactory.getInstance().getTaskService();
     	
-        return service.list();
+    	if (query == null) {
+    		return service.list();
+    	} else {
+    		return service.search(query);
+    	}
     }
     
     @POST

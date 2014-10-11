@@ -43,5 +43,9 @@ public class TaskService {
 	public void delete(String id) {
 		this.dao.delete(id);
 	}
+
+	public List<TaskModel> search(String query) {
+		return this.dao.findByQuery(query);
+	}
 	
 }
