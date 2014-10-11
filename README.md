@@ -23,6 +23,7 @@ build
    mvn clean install
    ```
 
+
 deploy
 ------
 
@@ -33,6 +34,7 @@ java -cp target/classes:target/dependency/* com.kenneth.todo.heroku.Main
 
 ### webserver
 Depending on your webserver, copy `target/todo-webapp.war` to the deploy path.
+
 
 rest resources
 --------------
@@ -47,12 +49,13 @@ rest resources
 }
 ```
 
+
 endpoints
 ---------
 All endpoints use JSON.
 
 ### GET /v1/tasks
-Retrieve list of task
+Retrieve list of tasks.
 
 #### Possible parameters:
 `q` - search title and body for tasks
