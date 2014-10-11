@@ -1,7 +1,7 @@
 Todo API (mashape)
 ==================
 
-Jersey implementation of RESTful todo API. See endpoints section to see what you can hit.
+Jersey implementation of RESTful todo API. For endpoints, see https://www.mashape.com/kennethkl/kenneth-todos
 
 Also added a HTML frontend to interact with the api.
 
