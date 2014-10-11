@@ -2,7 +2,7 @@
 <html lang="en" data-framework="backbonejs">
 	<head>
 		<meta charset="utf-8">
-		<title>Backbone.js • TodoMVC</title>
+		<title>Mashape • Todo API</title>
 		<link rel="stylesheet" href="bower_components/todomvc-common/base.css">
 	</head>
 	<body>
@@ -20,12 +20,13 @@
 		</section>
 		<footer id="info">
 			<p>Double-click to edit a todo</p>
-			<p>Written by <a href="https://github.com/addyosmani">Addy Osmani</a></p>
-			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+			<p>Originally written by <a href="https://github.com/addyosmani">Addy Osmani</a></p>
+			<p>Modified by <a href="https://github.com/kennethklee">Kenneth Lee</a> for <a href="http://mashape.com">Mashape</a></p>
+			<p>Git repo <a href="https://github.com/kennethklee/mashape-todo">Todo API</a></p>
 		</footer>
 		<script type="text/template" id="item-template">
 			<div class="view">
-				<input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
+				<input class="toggle" type="checkbox" <%= done ? 'checked' : '' %>>
 				<label><%- title %></label>
 				<button class="destroy"></button>
 			</div>
@@ -52,7 +53,6 @@
 		<script src="bower_components/jquery/jquery.js"></script>
 		<script src="bower_components/underscore/underscore.js"></script>
 		<script src="bower_components/backbone/backbone.js"></script>
-		<script src="bower_components/backbone.localStorage/backbone.localStorage.js"></script>
 		<script src="js/models/todo.js"></script>
 		<script src="js/collections/todos.js"></script>
 		<script src="js/views/todo-view.js"></script>
