@@ -13,19 +13,23 @@ public class TaskServiceTest {
 
 	private DataFactory df;
 	private TaskService taskService;
+	private MockSmsService smsService;
 	
 	public class MockSmsService implements SmsService {
-
+		
+		public boolean calledTaskComplete = false;
+		
 		@Override
 		public void sendTaskComplete(TaskModel task) {
-			assertEquals(true, task.isDone());
+			calledTaskComplete = true;
 		}
 		
 	}
 	
 	@Before
 	public void setup() {
-		this.taskService = new TaskService(new MockTaskMemoryDao(), new MockSmsService());
+		this.smsService = new MockSmsService();
+		this.taskService = new TaskService(new MockTaskMemoryDao(), this.smsService);
 		this.df = new DataFactory();
 	}
 	
@@ -43,6 +47,15 @@ public class TaskServiceTest {
 		this.taskService.update("updateId", model);
 		
 		assertEquals(updateId, model.getId());
+		assertTrue(this.smsService.calledTaskComplete);
+	}
+	
+	@Test
+	public void testCreateDone() {
+		TaskModel model = this.taskService.create(new TaskModel(null, df.getRandomWord(), df.getRandomText(200), 0, true)); 
+		
+		assertEquals(true, model.isDone());
+		assertTrue(this.smsService.calledTaskComplete);
 	}
 	
 }

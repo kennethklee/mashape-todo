@@ -36,7 +36,11 @@ public class TaskService {
 
 	public TaskModel update(String id, TaskModel model) {
     	model.setId(id);
-		return dao.update(model);
+    	dao.update(model);
+		if (model.isDone()) {
+			this.smsService.sendTaskComplete(model);
+		}
+		return model;
 	}
 
 	public void delete(String id) {
