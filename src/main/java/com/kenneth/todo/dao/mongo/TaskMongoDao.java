@@ -97,7 +97,7 @@ public class TaskMongoDao implements TaskDao {
 		TaskModel model = new TaskModel();
 		model.setId(obj.get("_id").toString());
 		model.setTitle(obj.get("title").toString());
-		model.setBody(obj.get("body").toString());
+		model.setBody((String) obj.get("body"));
 		model.setDone((boolean) obj.get("done"));
 		
 		return model;
