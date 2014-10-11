@@ -62,11 +62,19 @@ public class TaskResourceTest extends JerseyTest {
     	final Response response = target().path("/tasks").request().post(Entity.entity(model, MediaType.APPLICATION_JSON_TYPE));
     	
     	assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
-    	// Can't seem to figure out how to get the response body from a response object.
+    	TaskModel createdModel = response.readEntity(TaskModel.class);
+    	assertEquals(model.getTitle(), createdModel.getTitle());
+    	assertEquals(model.getBody(), createdModel.getBody());
+    	assertEquals(model.isDone(), createdModel.isDone());
    	
+    	// Ensure it's in there
     	final String jsonList = target().path("/tasks").request().get(String.class);
     	assertTrue(jsonList.contains(model.getTitle()));
     	assertTrue(jsonList.contains(model.getBody()));
+    	
+    	// Delete (clean up a bit)
+    	final Response deleteResponse = target().path("/tasks/" + createdModel.getId()).request().delete();
+    	assertEquals(Status.NO_CONTENT.getStatusCode(), deleteResponse.getStatus());
     }
     
     @Test
@@ -111,10 +119,19 @@ public class TaskResourceTest extends JerseyTest {
     	
     	// Search for created task
     	final Response response = target().path("/tasks").queryParam("q", newModel.getTitle()).request().get();
-        
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         List<TaskModel> searchResults = response.readEntity(new GenericType<List<TaskModel>>() {});
         assertTrue(searchResults.size() > 0);	// There's at least one result
+
+    	// Delete
+    	final Response deleteResponse = target().path("/tasks/" + createdModel.getId()).request().delete();
+    	assertEquals(Status.NO_CONTENT.getStatusCode(), deleteResponse.getStatus());
+
+    	// Search for deleted task
+    	final Response deletedResponse = target().path("/tasks").queryParam("q", newModel.getTitle()).request().get();
+        assertEquals(Status.OK.getStatusCode(), deletedResponse.getStatus());
+        List<TaskModel> deletedSearchResults = deletedResponse.readEntity(new GenericType<List<TaskModel>>() {});
+        assertEquals(0, deletedSearchResults.size());	// All gone!
 
     }
 }
