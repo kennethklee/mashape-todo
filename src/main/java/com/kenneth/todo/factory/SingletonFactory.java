@@ -1,6 +1,11 @@
 package com.kenneth.todo.factory;
 
+import io.searchbox.client.JestClient;
+import io.searchbox.client.JestClientFactory;
+import io.searchbox.client.config.HttpClientConfig;
+
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -13,6 +18,9 @@ import com.kenneth.todo.service.SmsService;
 import com.kenneth.todo.service.TaskService;
 import com.kenneth.todo.service.sms.DisabledSmsService;
 import com.kenneth.todo.service.sms.TwilioSmsService;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.twilio.sdk.TwilioRestClient;
 
 /**
  * Standard SingletonFactory design, because we're not going to use dependency injection for learning purposes. =)
@@ -25,6 +33,9 @@ public class SingletonFactory {
 	private TaskDao taskDao;
 	private TaskService taskService;
 	private SmsService smsService;
+	private MongoClient mongoClient;
+	private TwilioRestClient twilioClient;
+	private JestClient jestClient;
 
 	private static class SingletonHolder {
 		private static final SingletonFactory INSTANCE = new SingletonFactory();
@@ -54,10 +65,8 @@ public class SingletonFactory {
 		if (this.taskDao == null) {
 			synchronized (this) {
 				if (this.taskDao == null) {
-					String searchlyUrl = this.properties.getProperty("searchly.url");
-
 					TaskDao storageDao = new TaskMemoryDao(null);
-					TaskDao searchDao = new TaskSearchlyDao(storageDao, searchlyUrl);
+					TaskDao searchDao = new TaskSearchlyDao(getJestClient(), storageDao);
 					
 					this.taskDao = searchDao;
 				}
@@ -91,13 +100,10 @@ public class SingletonFactory {
 					boolean enabled = Boolean.parseBoolean(enabledString);
 					
 					if (enabled) {
-						String accountSid = this.properties.getProperty("twilio.sid");
-						String authToken = this.properties.getProperty("twilio.token");
-
 						String from = this.properties.getProperty("sms.from");
 						String to = this.properties.getProperty("sms.to");
 						
-						this.smsService = new TwilioSmsService(accountSid, authToken, from, to);
+						this.smsService = new TwilioSmsService(getTwilioClient(), from, to);
 					} else {
 						this.smsService = new DisabledSmsService();
 					}
@@ -106,4 +112,54 @@ public class SingletonFactory {
 		}
 		return this.smsService;
 	}
+
+	public MongoClient getMongoClient() {
+		if (this.mongoClient == null) {
+			synchronized (this) {
+				if (this.mongoClient == null) {
+					String uri = this.properties.getProperty("mongo.uri");
+					
+					try {
+						this.mongoClient = new MongoClient(new MongoClientURI(uri));
+					} catch (UnknownHostException e) {
+						LOG.error("Failed to connect to mongo database", e);
+					}
+				}
+			}
+		}
+
+		return this.mongoClient;
+	}
+
+	public TwilioRestClient getTwilioClient() {
+		if (this.twilioClient == null) {
+			synchronized (this) {
+				if (this.twilioClient == null) {
+					String accountSid = this.properties.getProperty("twilio.sid");
+					String authToken = this.properties.getProperty("twilio.token");
+
+					this.twilioClient = new TwilioRestClient(accountSid, authToken);
+				}
+			}
+		}
+		return this.twilioClient;
+	}
+
+	public JestClient getJestClient() {
+		if (this.taskService == null) {
+			synchronized (this) {
+				if (this.taskService == null) {
+					String url = this.properties.getProperty("elasticsearch.url");
+					
+					JestClientFactory factory = new JestClientFactory();
+					factory.setHttpClientConfig(new HttpClientConfig.Builder(url)
+							.multiThreaded(true).build());
+					this.jestClient = factory.getObject();
+				}
+			}
+		}
+		return this.jestClient;
+	}
+	
+
 }

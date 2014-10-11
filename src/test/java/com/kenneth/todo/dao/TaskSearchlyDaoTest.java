@@ -1,6 +1,8 @@
 package com.kenneth.todo.dao;
 
 import static org.junit.Assert.*;
+import io.searchbox.client.JestClientFactory;
+import io.searchbox.client.config.HttpClientConfig;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ import com.kenneth.todo.dao.search.TaskSearchlyDao;
 import com.kenneth.todo.model.TaskModel;
 
 /**
- * Not exactly a unit test. Needs mocking with mockito or jmock. But this is here for me to test searchly.
+ * Not a unit test. Needs mocking with mockito or jmock. But this is here for me to test searchly.
  */
 public class TaskSearchlyDaoTest {
 	
@@ -24,8 +26,12 @@ public class TaskSearchlyDaoTest {
 	
 	@Before
 	public void setUp() {
+		JestClientFactory factory = new JestClientFactory();
+		factory.setHttpClientConfig(new HttpClientConfig.Builder(TEST_SEARCHLY_URL)
+				.multiThreaded(true).build());
+
 		this.df = new DataFactory();
-		this.dao = new TaskSearchlyDao(new MockTaskMemoryDao(), TEST_SEARCHLY_URL);
+		this.dao = new TaskSearchlyDao(factory.getObject(), new MockTaskMemoryDao());
 	}
 	
 	@Test

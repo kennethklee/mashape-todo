@@ -37,17 +37,14 @@ public class TaskSearchlyDao implements TaskDao {
 	private TaskDao innerDao;
 	private JestClient client;
 
-	public TaskSearchlyDao(TaskDao innerDao, String url) {
+	public TaskSearchlyDao(JestClient client, TaskDao innerDao) {
 		if (innerDao == null) {
 			throw new IllegalArgumentException(
 					"TaskSearchlyDao requires a non-null dao object.");
 		}
-
+		
+		this.client = client;
 		this.innerDao = innerDao;
-		JestClientFactory factory = new JestClientFactory();
-		factory.setHttpClientConfig(new HttpClientConfig.Builder(url)
-				.multiThreaded(true).build());
-		this.client = factory.getObject();
 
 		createIndexUnlessExists();
 	}

@@ -27,13 +27,11 @@ public class TwilioSmsService implements SmsService {
 	/**
 	 * Create a new Twilio service. All sms messages will come from the <i>fromNumber</i> parameter. Also,
 	 * all message will be sent to the <i>toNumber</i>.
-	 * @param accountSid Twilio account sid 
-	 * @param authToken Twilio authentication token
 	 * @param fromNumber from sms number
 	 * @param toNumber to this sms number
 	 */
-	public TwilioSmsService(String accountSid, String authToken, String fromNumber, String toNumber) {
-		this.twilioClient = new TwilioRestClient(accountSid, authToken);
+	public TwilioSmsService(TwilioRestClient twilioClient, String fromNumber, String toNumber) {
+		this.twilioClient = twilioClient;
 		this.fromNumber = fromNumber;
 		this.toNumber = toNumber;
 	}
