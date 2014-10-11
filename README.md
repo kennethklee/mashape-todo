@@ -49,6 +49,7 @@ rest resources
 	"id": "unique identifier",
 	"title": "title of task",
 	"body": "description of task",
+	"order": 1,
 	"done": true
 }
 ```
