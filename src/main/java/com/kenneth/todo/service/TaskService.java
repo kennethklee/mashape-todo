@@ -6,6 +6,9 @@ import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.factory.SingletonFactory;
 import com.kenneth.todo.model.TaskModel;
 
+/**
+ * Service to manage tasks.
+ */
 public class TaskService {
 	private TaskDao dao;
 	private SmsService smsService;
