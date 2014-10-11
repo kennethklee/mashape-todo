@@ -48,8 +48,7 @@ public class SingletonFactory {
 		properties = new Properties();
 
 		try {
-			properties.load(getClass().getResourceAsStream(
-					APPLICATION_PROPERTIES));
+			properties.load(getClass().getResourceAsStream(APPLICATION_PROPERTIES));
 		} catch (IOException e) {
 			LOG.error("Failed to load application properties.", e);
 		}
@@ -75,10 +74,13 @@ public class SingletonFactory {
 					TaskDao storageDao;
 
 					String storage = this.properties.getProperty("data.storage");
+					
 					if (storage.equalsIgnoreCase("mongo")) {
+						LOG.info("Storage: MongoDB");
 						String name = this.properties.getProperty("mongo.name");
 						storageDao = new TaskMongoDao(null, getMongoClient(), name);
 					} else {
+						LOG.info("Storage: In-Memory");
 						storageDao = new TaskMemoryDao(null);
 					}
 
@@ -118,11 +120,13 @@ public class SingletonFactory {
 					boolean enabled = Boolean.parseBoolean(enabledString);
 
 					if (enabled) {
+						LOG.info("SMS: Enabled");
 						String from = this.properties.getProperty("sms.from");
 						String to = this.properties.getProperty("sms.to");
 
 						this.smsService = new TwilioSmsService(getTwilioClient(), from, to);
 					} else {
+						LOG.info("SMS: Disabled");
 						this.smsService = new DisabledSmsService();
 					}
 				}

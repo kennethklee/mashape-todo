@@ -44,6 +44,7 @@ public class TwilioSmsService implements SmsService {
 	    
 	    try {
 			messageFactory.create(messageParams);
+			LOG.info("Twilio: Sent Task Complete Message, " + task.getId());
 		} catch (TwilioRestException e) {
 			LOG.warn("Failed to send SMS message for task \"" + task.getId() + "\"", e);
 		}
@@ -56,6 +57,5 @@ public class TwilioSmsService implements SmsService {
 	    params.add(new BasicNameValuePair("From", this.fromNumber));
 		return params;
 	}
-	
 	
 }
