@@ -3,6 +3,10 @@ Todo API (mashape)
 
 Jersey implementation of RESTful todo API. See endpoints section to see what you can hit.
 
+demo
+----
+See http://kenneth-todo.herokuapp.com
+
 prerequisites
 -------------
 * Maven 2.x
