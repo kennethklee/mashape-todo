@@ -5,7 +5,7 @@ import io.searchbox.annotations.JestId;
 /**
  * Model that represents a task in a todo list.
  * 
- * NOTE: Should include active, and timestamps for record tracking and auditing. Since this is a simple example, we'll omit them.
+ * NOTE: Should include active, and timestamps for record tracking and auditing. Since this is a simple example, we won't add them.
  */
 public class TaskModel implements Model {
 

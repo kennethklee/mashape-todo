@@ -24,11 +24,13 @@ import com.mongodb.MongoClientURI;
 import com.twilio.sdk.TwilioRestClient;
 
 /**
- * Standard SingletonFactory design, because we're not going to use dependency injection for learning purposes. =)
+ * Standard SingletonFactory design, because we're not going to use dependency
+ * injection for learning purposes. =)
  */
 public class SingletonFactory {
 	private static final String APPLICATION_PROPERTIES = "/application.properties";
-	private static final Logger LOG = LoggerFactory.getLogger(SingletonFactory.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(SingletonFactory.class);
 
 	private Properties properties;
 	private TaskDao taskDao;
@@ -46,13 +48,15 @@ public class SingletonFactory {
 		properties = new Properties();
 
 		try {
-			properties.load(getClass().getResourceAsStream(APPLICATION_PROPERTIES));
+			properties.load(getClass().getResourceAsStream(
+					APPLICATION_PROPERTIES));
 		} catch (IOException e) {
 			LOG.error("Failed to load application properties.", e);
 		}
 	}
 
 	/**
+	 * Retrieve a SingletonFactory. Loads up <i>application.properties</i> for configurations.
 	 * @return an instance of a SingletonFactory.
 	 */
 	public static SingletonFactory getInstance() {
@@ -60,6 +64,8 @@ public class SingletonFactory {
 	}
 
 	/**
+	 * Retrieve a TaskDao. Uses <i>data.storage</i> to determine the type of Dao to load up.
+	 * If mongo, uses {@link MongoClient} singleton and <i>mongo.name</i> to create the MongoDao.
 	 * @return an instance of a TaskDao
 	 */
 	public TaskDao getTaskDao() {
@@ -71,13 +77,13 @@ public class SingletonFactory {
 					String storage = this.properties.getProperty("data.storage");
 					if (storage.equalsIgnoreCase("mongo")) {
 						String name = this.properties.getProperty("mongo.name");
-						storageDao = new TaskMongoDao(getMongoClient(), name);
+						storageDao = new TaskMongoDao(null, getMongoClient(), name);
 					} else {
 						storageDao = new TaskMemoryDao(null);
 					}
-					
+
 					TaskDao searchDao = new TaskSearchlyDao(getJestClient(), storageDao);
-					
+
 					this.taskDao = searchDao;
 				}
 			}
@@ -86,6 +92,7 @@ public class SingletonFactory {
 	}
 
 	/**
+	 * Retrieves a Task Service.
 	 * @return an instance of a TaskService.
 	 */
 	public TaskService getTaskService() {
@@ -98,8 +105,9 @@ public class SingletonFactory {
 		}
 		return this.taskService;
 	}
-	
+
 	/**
+	 * Retrieves an SMS Service. Uses <i>sms.enabled</i> to determine whether to actually send SMS or not.
 	 * @return an instance of an SMS Service
 	 */
 	public SmsService getSmsService() {
@@ -108,11 +116,11 @@ public class SingletonFactory {
 				if (this.smsService == null) {
 					String enabledString = this.properties.getProperty("sms.enabled");
 					boolean enabled = Boolean.parseBoolean(enabledString);
-					
+
 					if (enabled) {
 						String from = this.properties.getProperty("sms.from");
 						String to = this.properties.getProperty("sms.to");
-						
+
 						this.smsService = new TwilioSmsService(getTwilioClient(), from, to);
 					} else {
 						this.smsService = new DisabledSmsService();
@@ -123,12 +131,16 @@ public class SingletonFactory {
 		return this.smsService;
 	}
 
+	/**
+	 * Retrieve a mongo client. Uses <i>mongo.uri</i> for it's connection properties.
+	 * @return an instance of a Mongo client
+	 */
 	public MongoClient getMongoClient() {
 		if (this.mongoClient == null) {
 			synchronized (this) {
 				if (this.mongoClient == null) {
 					String uri = this.properties.getProperty("mongo.uri");
-					
+
 					try {
 						this.mongoClient = new MongoClient(new MongoClientURI(uri));
 					} catch (UnknownHostException e) {
@@ -141,6 +153,10 @@ public class SingletonFactory {
 		return this.mongoClient;
 	}
 
+	/**
+	 * Retrieve a TwilioRestClient. Uses <i>twilio.sid</i> and <i>twilio.token</i> to establish the connection.
+	 * @return an instance of a twilio client
+	 */
 	public TwilioRestClient getTwilioClient() {
 		if (this.twilioClient == null) {
 			synchronized (this) {
@@ -155,21 +171,24 @@ public class SingletonFactory {
 		return this.twilioClient;
 	}
 
+	/**
+	 * Retrieve an elastic search JestClient. Uses <i>elasticsearch.url</i> to connect.
+	 * @return an instance of jest client
+	 */
 	public JestClient getJestClient() {
 		if (this.taskService == null) {
 			synchronized (this) {
 				if (this.taskService == null) {
 					String url = this.properties.getProperty("elasticsearch.url");
-					
+
 					JestClientFactory factory = new JestClientFactory();
-					factory.setHttpClientConfig(new HttpClientConfig.Builder(url)
-							.multiThreaded(true).build());
+					HttpClientConfig clientConfig = new HttpClientConfig.Builder(url).multiThreaded(true).build();
+					factory.setHttpClientConfig(clientConfig);
 					this.jestClient = factory.getObject();
 				}
 			}
 		}
 		return this.jestClient;
 	}
-	
 
 }

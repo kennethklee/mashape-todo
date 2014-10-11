@@ -13,12 +13,17 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
+/**
+ * Implementation of a mongo DAO that stores tasks.
+ */
 public class TaskMongoDao implements TaskDao {
 
 	private static final String COLLECTION_NAME = "tasks";
 	private DBCollection collection;
+	private TaskDao innerDao;
 	
-	public TaskMongoDao(MongoClient mongoClient, String dbName) {
+	public TaskMongoDao(TaskDao innerDao, MongoClient mongoClient, String dbName) {
+		this.innerDao = innerDao;
 		this.collection = mongoClient.getDB(dbName).getCollection(COLLECTION_NAME);
 	}
 
@@ -77,8 +82,11 @@ public class TaskMongoDao implements TaskDao {
 
 	@Override
 	public List<TaskModel> findByQuery(String query) {
-		// TODO Auto-generated method stub
-		return null;
+		if (innerDao != null) {
+			return innerDao.findByQuery(query);
+		}
+
+		throw new UnsupportedOperationException();
 	}
 	
 	private DBObject toDbObject(TaskModel model) {

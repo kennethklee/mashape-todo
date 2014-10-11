@@ -10,7 +10,7 @@ import com.kenneth.todo.dao.Dao;
 import com.kenneth.todo.model.Model;
 
 /**
- * Generic DAO stored in-memory. Use this to store objects in memory. 
+ * Generic DAO stored in-memory. Use this to store objects in memory.
  * 
  * @param <T> Model to use for storage
  */

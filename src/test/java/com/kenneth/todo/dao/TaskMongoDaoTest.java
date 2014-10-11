@@ -24,7 +24,7 @@ public class TaskMongoDaoTest {
 	@Before
 	public void setUp() throws UnknownHostException {
 		MongoClient mongoClient = new MongoClient(new MongoClientURI(TEST_MONGO_URL));
-		this.dao = new TaskMongoDao(mongoClient, "unit-test");
+		this.dao = new TaskMongoDao(null, mongoClient, "unit-test");
 	}
 	
 	@Test
