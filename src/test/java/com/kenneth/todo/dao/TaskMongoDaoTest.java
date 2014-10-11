@@ -30,7 +30,7 @@ public class TaskMongoDaoTest {
 	@Test
 	@Ignore
 	public void testCreateAndGet() {
-		TaskModel createdModel = dao.create(new TaskModel(null, "test", "test", false));
+		TaskModel createdModel = dao.create(new TaskModel(null, "test", "test", 0, false));
 		assertNotNull(createdModel.getId());
 		assertEquals("test", createdModel.getTitle());
 		

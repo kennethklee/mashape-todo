@@ -44,7 +44,7 @@ public class TaskSearchlyDaoTest {
 	@Ignore
 	public void testCreateAndFind() {
 		String title = df.getRandomWord();
-		this.dao.create(new TaskModel("fake", title, df.getRandomWord(20), false));
+		this.dao.create(new TaskModel("fake", title, df.getRandomWord(20), 0, false));
 		
 		List<TaskModel> results = this.dao.findByQuery(title);
 		assertTrue(results.size() > 0);

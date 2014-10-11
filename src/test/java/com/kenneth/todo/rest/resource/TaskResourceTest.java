@@ -43,7 +43,7 @@ public class TaskResourceTest extends JerseyTest {
     
     @Test
     public void testUpdateNotFound() {
-    	final TaskModel model = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), false);
+    	final TaskModel model = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), 0, false);
         final Response response = target().path("/tasks/non-existant").request().put(Entity.entity(model, MediaType.APPLICATION_JSON_TYPE));
         
         assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
@@ -58,7 +58,7 @@ public class TaskResourceTest extends JerseyTest {
     @Test
     public void testCreateAndList() {
     	// Create
-    	final TaskModel model = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), false);
+    	final TaskModel model = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), 0, false);
     	final Response response = target().path("/tasks").request().post(Entity.entity(model, MediaType.APPLICATION_JSON_TYPE));
     	
     	assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
@@ -72,8 +72,8 @@ public class TaskResourceTest extends JerseyTest {
     @Test
     public void testCreateAndUpdateAndDelete() {
     	// New model and the changed model
-    	final TaskModel newModel = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), false);
-    	final TaskModel changedModel = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), true);
+    	final TaskModel newModel = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), 0, false);
+    	final TaskModel changedModel = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), 0, true);
     	assertNotEquals(newModel.getTitle(), changedModel.getTitle());
     	assertNotEquals(newModel.getBody(), changedModel.getBody());
     	assertNotEquals(newModel.isDone(), changedModel.isDone());
@@ -103,7 +103,7 @@ public class TaskResourceTest extends JerseyTest {
     @Ignore("Needs mockito to mock out the external request.")
     public void testSearch() {
     	// Create
-    	final TaskModel newModel = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), false);
+    	final TaskModel newModel = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), 0, false);
     	final TaskModel createdModel = target().path("/tasks").request().post(Entity.entity(newModel, MediaType.APPLICATION_JSON_TYPE), TaskModel.class);
     	assertEquals(newModel.getTitle(), createdModel.getTitle());
     	assertEquals(newModel.getBody(), createdModel.getBody());

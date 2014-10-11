@@ -10,12 +10,14 @@ public class TaskModel implements Model {
 	private String id;
 	private String title;
 	private String body;
+	private int order;
 	private boolean done;
 		
 	/**
 	 * Create an empty TaskModel. Use the setters to fill out the data.
 	 */
 	public TaskModel() {
+		this.order = 1;
 	}
 	
 	/**
@@ -25,10 +27,11 @@ public class TaskModel implements Model {
 	 * @param body description of task
 	 * @param done whether the task is complete or not
 	 */
-	public TaskModel(String id, String title, String body, boolean done) {
+	public TaskModel(String id, String title, String body, int order, boolean done) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
+		this.order = order;
 		this.done = done;
 	}
 
@@ -56,6 +59,14 @@ public class TaskModel implements Model {
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 	public boolean isDone() {

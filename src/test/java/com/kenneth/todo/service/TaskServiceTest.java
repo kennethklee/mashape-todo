@@ -31,14 +31,14 @@ public class TaskServiceTest {
 	
 	@Test
 	public void testCompleteNotification() {
-		TaskModel createdModel = this.taskService.create(new TaskModel("", "", "", true));
+		TaskModel createdModel = this.taskService.create(new TaskModel("", "", "", 0, true));
 		assertEquals(true, createdModel.isDone());
 	}
 	
 	@Test
 	public void testUpdate() {
 		String updateId = "updateId";
-		TaskModel model = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), true);
+		TaskModel model = new TaskModel(null, df.getRandomWord(), df.getRandomText(200), 0, true);
 		
 		this.taskService.update("updateId", model);
 		
