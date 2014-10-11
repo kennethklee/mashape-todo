@@ -3,9 +3,12 @@ Todo API (mashape)
 
 Jersey implementation of RESTful todo API. See endpoints section to see what you can hit.
 
+Also added a HTML frontend to interact with the api.
+
 demo
 ----
 See http://kenneth-todo.herokuapp.com
+
 
 prerequisites
 -------------
@@ -57,25 +60,8 @@ rest resources
 
 endpoints
 ---------
-All endpoints use JSON.
 
-### GET /v1/tasks
-Retrieve list of tasks.
-
-#### Possible parameters:
-`q` - search title and body for tasks
-
-### POST /v1/tasks
-Create a new task. The request body must be a task resource. The `id` field is ignored. Marking a task as done will send an SMS to Kenneth.
-
-### GET /v1/tasks/{id}
-Retrieve a single task identified by `id`.
-
-### PUT /v1/tasks/{id}
-Update a task identified by `id`. The request body must be a task resource. Marking a task as done will send an SMS to Kenneth.
-
-### DELETE /v1/tasks/{id}
-Deletes a task identified by `id`. Response will be blank when success (204).
+For endpoint details, please see https://www.mashape.com/kennethkl/kenneth-todos
 
 
 example requests
