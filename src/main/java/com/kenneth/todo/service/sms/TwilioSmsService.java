@@ -36,9 +36,6 @@ public class TwilioSmsService implements SmsService {
 		this.toNumber = toNumber;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.kenneth.todo.service.sms.SmsService#sendComplete(com.kenneth.todo.model.TaskModel)
-	 */
 	@Override
 	public void sendComplete(TaskModel task) {
 		List<NameValuePair> messageParams = constructMessage("Task completed! \"" + task.getTitle() + "\"");
