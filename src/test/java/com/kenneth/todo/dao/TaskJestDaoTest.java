@@ -12,17 +12,17 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.kenneth.todo.dao.mock.MockTaskMemoryDao;
-import com.kenneth.todo.dao.search.TaskSearchlyDao;
+import com.kenneth.todo.dao.search.TaskJestDao;
 import com.kenneth.todo.model.TaskModel;
 
 /**
  * Not a unit test. Needs mocking with mockito or something. But this is here for me to test searchly.
  */
-public class TaskSearchlyDaoTest {
+public class TaskJestDaoTest {
 	
 	private static final String TEST_SEARCHLY_URL = "https://site:9424ca85f81d41c3a7afb05426531330@bofur-us-east-1.searchly.com";
 	private DataFactory df;
-	private TaskSearchlyDao dao;
+	private TaskJestDao dao;
 	
 	@Before
 	public void setUp() {
@@ -31,7 +31,7 @@ public class TaskSearchlyDaoTest {
 				.multiThreaded(true).build());
 
 		this.df = new DataFactory();
-		this.dao = new TaskSearchlyDao(factory.getObject(), new MockTaskMemoryDao());
+		this.dao = new TaskJestDao(factory.getObject(), new MockTaskMemoryDao());
 	}
 	
 	@Test

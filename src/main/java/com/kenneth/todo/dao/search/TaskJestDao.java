@@ -21,13 +21,13 @@ import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.model.TaskModel;
 
 /**
- * Implementation of a Searchly Task Dao. Requires an innerDao for persistent
+ * Implementation of a search task DAO using JestClient. Requires an innerDao for persistence.
  * storage.
  */
-public class TaskSearchlyDao implements TaskDao {
+public class TaskJestDao implements TaskDao {
 
 	private static final Logger LOG = LoggerFactory
-			.getLogger(TaskSearchlyDao.class);
+			.getLogger(TaskJestDao.class);
 
 	private static final String INDEX_NAME = "tasks";
 	private static final String TYPE_NAME = "task";
@@ -35,7 +35,7 @@ public class TaskSearchlyDao implements TaskDao {
 	private TaskDao innerDao;
 	private JestClient client;
 
-	public TaskSearchlyDao(JestClient client, TaskDao innerDao) {
+	public TaskJestDao(JestClient client, TaskDao innerDao) {
 		if (innerDao == null) {
 			throw new IllegalArgumentException(
 					"TaskSearchlyDao requires a non-null dao object.");

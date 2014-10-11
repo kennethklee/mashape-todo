@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.kenneth.todo.dao.TaskDao;
 import com.kenneth.todo.dao.memory.TaskMemoryDao;
 import com.kenneth.todo.dao.mongo.TaskMongoDao;
-import com.kenneth.todo.dao.search.TaskSearchlyDao;
+import com.kenneth.todo.dao.search.TaskJestDao;
 import com.kenneth.todo.service.SmsService;
 import com.kenneth.todo.service.TaskService;
 import com.kenneth.todo.service.sms.DisabledSmsService;
@@ -82,7 +82,7 @@ public class SingletonFactory {
 						storageDao = new TaskMemoryDao(null);
 					}
 
-					TaskDao searchDao = new TaskSearchlyDao(getJestClient(), storageDao);
+					TaskDao searchDao = new TaskJestDao(getJestClient(), storageDao);
 
 					this.taskDao = searchDao;
 				}
