@@ -89,6 +89,7 @@ public class TaskMongoDao implements TaskDao {
 		DBObject obj = new BasicDBObject();
 		obj.put("title", model.getTitle());
 		obj.put("body", model.getBody());
+		obj.put("order", model.getOrder());
 		obj.put("done", model.isDone());
 		
 		return obj;
@@ -98,6 +99,7 @@ public class TaskMongoDao implements TaskDao {
 		model.setId(obj.get("_id").toString());
 		model.setTitle(obj.get("title").toString());
 		model.setBody((String) obj.get("body"));
+		model.setOrder((int) obj.get("order"));
 		model.setDone((boolean) obj.get("done"));
 		
 		return model;
