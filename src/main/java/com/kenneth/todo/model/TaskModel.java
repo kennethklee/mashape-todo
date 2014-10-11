@@ -1,5 +1,7 @@
 package com.kenneth.todo.model;
 
+import io.searchbox.annotations.JestId;
+
 /**
  * Model that represents a task in a todo list.
  * 
@@ -7,6 +9,7 @@ package com.kenneth.todo.model;
  */
 public class TaskModel implements Model {
 
+	@JestId
 	private String id;
 	private String title;
 	private String body;
